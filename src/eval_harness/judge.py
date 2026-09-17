@@ -110,6 +110,47 @@ def model_judgment(case: EvalCase, response: str, judge: ModelAdapter) -> Judgme
     return Judgment(scores=scores, overall_reason=overall_reason, judge=judge.name)
 
 
+def jev_judgment(case: EvalCase, response: str) -> Judgment:
+    """Score-primitive judge via TypeSafe/Jev. No generative rationale --
+    each criterion gets a typed 0-4 Score instead of a parsed JSON blob."""
+    from typesafe_sdk import TypeSafeClient, Score
+
+    questions = {
+        criterion.id: Score(
+            instructions=(
+                f"Case input: {case.input}\n\n"
+                f"Reference answer: {case.reference}\n\n"
+                f"Candidate response: {response}\n\n"
+                f"Criterion: {criterion.description}\n"
+                "How well does the candidate response meet this criterion?"
+            ),
+            criteria=["absent or contradicts", "major problems", "partly meets", "meets with minor issues", "fully meets"],
+        )
+        for criterion in case.rubric
+    }
+
+    with TypeSafeClient() as client:
+        result = client.system_one(state={"case_id": case.id}, questions=questions)
+
+    expected = {criterion.id for criterion in case.rubric}
+    scores = [
+        CriterionScore(
+            criterion_id=criterion_id,
+            score=float(answer.score),
+            reason=f"Score primitive (confidence {answer.confidence:.2f}); no generative rationale.",
+        )
+        for criterion_id, answer in result.answers.items()
+    ]
+    if {score.criterion_id for score in scores} != expected:
+        raise ValueError("jev judge did not return every rubric criterion")
+
+    return Judgment(
+        scores=scores,
+        overall_reason="",
+        judge="jev:jev-latest",
+    )
+
+
 def weighted_score(case: EvalCase, judgment: Judgment) -> float:
     by_id = {score.criterion_id: score.score for score in judgment.scores}
     weighted = sum(by_id[item.id] * item.weight for item in case.rubric)
