@@ -1,0 +1,27 @@
+{
+  "id": "experiment-001-stock-replication",
+  "model": "gpt-5.6-luna",
+  "environment": "shop-fixture-v1",
+  "interfaces": ["dom", "webmcp"],
+  "repetitions": 2,
+  "randomization_seed": 1701,
+  "calibration_attempts": 0,
+  "budgets": {
+    "attempt_timeout_seconds": 120,
+    "max_model_requests": 10,
+    "max_tool_invocations": 60,
+    "max_input_tokens": 20000,
+    "max_output_tokens": 4096,
+    "provider_retries": 0,
+    "reasoning_effort": "none",
+    "cost_ceiling_usd": 1.0,
+    "max_attempt_cost_usd": 0.09,
+    "input_price_per_million_usd": 0.20,
+    "cached_input_price_per_million_usd": 0.02,
+    "cache_write_price_per_million_usd": 0.25,
+    "output_price_per_million_usd": 1.20
+  },
+  "tasks": [
+    "../tasks/agent-eval/stock-01.json"
+  ]
+}

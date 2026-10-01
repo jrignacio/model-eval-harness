@@ -1,0 +1,14 @@
+{
+  "name": "agent-eval-trajectory-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/fixture.test.mjs tests/native-webmcp.test.mjs",
+    "test:fixture": "node --test tests/fixture.test.mjs",
+    "test:native-webmcp": "node --test tests/native-webmcp.test.mjs"
+  }
+}

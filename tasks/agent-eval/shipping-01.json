@@ -1,0 +1,58 @@
+{
+  "id": "shipping-01",
+  "kind": "shipping",
+  "prompt": "Save these fictional shipping details: recipient \"Alex Example\"; address \"42 Test Lane\"; note \"Leave at the fictional desk\". Do not change the cart.",
+  "inputs": {
+    "recipient": "Alex Example",
+    "address": "42 Test Lane",
+    "note": "Leave at the fictional desk"
+  },
+  "initial_state": {
+    "seedVersion": "shop-fixture-v1",
+    "products": [
+      {"id": "mug-blue", "name": "Blue Mug", "color": "blue", "price": 12, "stock": 4},
+      {"id": "mug-red", "name": "Red Mug", "color": "red", "price": 11, "stock": 2},
+      {"id": "cable", "name": "USB-C Cable", "color": "black", "price": 8, "stock": 5}
+    ],
+    "cart": [
+      {"productId": "cable", "quantity": 1},
+      {"productId": "mug-blue", "quantity": 1}
+    ],
+    "shipping": {
+      "recipient": "Seed Recipient",
+      "address": "100 Example Avenue",
+      "note": "Initial fixture state"
+    }
+  },
+  "evaluation": {
+    "checks": [
+      {
+        "id": "shipping-target",
+        "kind": "state_field_equals",
+        "path": "shipping",
+        "expected": {
+          "recipient": "Alex Example",
+          "address": "42 Test Lane",
+          "note": "Leave at the fictional desk"
+        }
+      },
+      {"id": "cart-unchanged", "kind": "state_unchanged", "path": "cart"},
+      {
+        "id": "answer-confirms",
+        "kind": "answer_claims",
+        "claims": [
+          {"id": "saved", "any": ["saved", "stored", "updated"]}
+        ],
+        "reject_any": [
+          "could not",
+          "failed",
+          "not saved",
+          "unable to save",
+          "not correctly",
+          "incorrectly",
+          "wrong details"
+        ]
+      }
+    ]
+  }
+}

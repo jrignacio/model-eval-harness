@@ -1,0 +1,81 @@
+{
+  "id": "cart-01",
+  "kind": "cart",
+  "prompt": "Set Blue Mug to quantity two and remove the seeded USB-C Cable. Do not change shipping details.",
+  "inputs": {},
+  "initial_state": {
+    "seedVersion": "shop-fixture-v1",
+    "products": [
+      {"id": "mug-blue", "name": "Blue Mug", "color": "blue", "price": 12, "stock": 4},
+      {"id": "mug-red", "name": "Red Mug", "color": "red", "price": 11, "stock": 2},
+      {"id": "cable", "name": "USB-C Cable", "color": "black", "price": 8, "stock": 5}
+    ],
+    "cart": [
+      {"productId": "cable", "quantity": 1},
+      {"productId": "mug-blue", "quantity": 1}
+    ],
+    "shipping": {
+      "recipient": "Seed Recipient",
+      "address": "100 Example Avenue",
+      "note": "Initial fixture state"
+    }
+  },
+  "evaluation": {
+    "checks": [
+      {
+        "id": "cart-target",
+        "kind": "state_field_equals",
+        "path": "cart",
+        "expected": {
+          "items": [
+            {"productId": "mug-blue", "name": "Blue Mug", "quantity": 2, "unitPrice": 12, "lineTotal": 24}
+          ],
+          "subtotal": 24
+        }
+      },
+      {"id": "shipping-unchanged", "kind": "state_unchanged", "path": "shipping"},
+      {
+        "id": "answer-confirms",
+        "kind": "answer_claims",
+        "claims": [
+          {
+            "id": "blue-mug-quantity",
+            "any": [
+              "two Blue Mugs",
+              "2 Blue Mugs",
+              "Blue Mug quantity is 2",
+              "Blue Mug: quantity 2",
+              "quantity of Blue Mug is 2",
+              "Blue Mug to 2",
+              "Blue Mug quantity is set to 2",
+              "Blue Mug is set to quantity 2",
+              "set Blue Mug quantity to 2",
+              "Blue Mug x2"
+            ]
+          },
+          {
+            "id": "cable-removed",
+            "any": [
+              "no USB-C Cable",
+              "removed the USB-C Cable",
+              "removed USB-C Cable",
+              "USB-C Cable was removed",
+              "USB-C Cable has been removed",
+              "USB-C Cable: removed",
+              "without the USB-C Cable",
+              "USB-C Cable is not in the cart"
+            ]
+          }
+        ],
+        "reject_any": [
+          "not two",
+          "not 2",
+          "could not",
+          "failed",
+          "still in the cart",
+          "was not removed"
+        ]
+      }
+    ]
+  }
+}

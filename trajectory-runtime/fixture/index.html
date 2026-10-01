@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agent Evaluation Shop Fixture</title>
+    <style>
+      :root { color-scheme: light; font-family: sans-serif; }
+      body { margin: 2rem auto; max-width: 56rem; padding: 0 1rem; }
+      section { border: 1px solid #bbb; margin: 1rem 0; padding: 1rem; }
+      label { display: block; margin: 0.6rem 0; }
+      input, select, button { font: inherit; padding: 0.35rem; }
+      pre { background: #f5f5f5; overflow: auto; padding: 0.75rem; }
+      #status[data-error="true"] { color: #a00; }
+    </style>
+  </head>
+  <body>
+    <h1>Agent Evaluation Shop Fixture</h1>
+    <p id="status" data-error="false">loading</p>
+
+    <section aria-labelledby="catalog-heading">
+      <h2 id="catalog-heading">Catalog</h2>
+      <ul id="products"></ul>
+    </section>
+
+    <section aria-labelledby="cart-heading">
+      <h2 id="cart-heading">Cart</h2>
+      <form id="cart-form">
+        <label>Product <select id="cart-product"></select></label>
+        <label>Quantity <input id="cart-quantity" type="number" min="0" step="1" value="1"></label>
+        <button type="submit">Set quantity</button>
+      </form>
+      <pre id="cart-output"></pre>
+    </section>
+
+    <section aria-labelledby="shipping-heading">
+      <h2 id="shipping-heading">Shipping</h2>
+      <form id="shipping-form">
+        <label>Recipient <input id="shipping-recipient" autocomplete="off"></label>
+        <label>Address <input id="shipping-address" autocomplete="off"></label>
+        <label>Note <input id="shipping-note" autocomplete="off"></label>
+        <button type="submit">Save shipping</button>
+      </form>
+      <pre id="shipping-output"></pre>
+    </section>
+
+    <script type="module" src="/app.mjs"></script>
+  </body>
+</html>

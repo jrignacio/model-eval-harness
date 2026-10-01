@@ -1,0 +1,48 @@
+{
+  "id": "catalog-01",
+  "kind": "catalog",
+  "prompt": "Identify the cheapest in-stock blue mug below $25. Do not change the cart or shipping details.",
+  "inputs": {},
+  "initial_state": {
+    "seedVersion": "shop-fixture-v1",
+    "products": [
+      {"id": "mug-blue", "name": "Blue Mug", "color": "blue", "price": 12, "stock": 4},
+      {"id": "mug-red", "name": "Red Mug", "color": "red", "price": 11, "stock": 2},
+      {"id": "cable", "name": "USB-C Cable", "color": "black", "price": 8, "stock": 5}
+    ],
+    "cart": [
+      {"productId": "cable", "quantity": 1},
+      {"productId": "mug-blue", "quantity": 1}
+    ],
+    "shipping": {
+      "recipient": "Seed Recipient",
+      "address": "100 Example Avenue",
+      "note": "Initial fixture state"
+    }
+  },
+  "evaluation": {
+    "checks": [
+      {
+        "id": "answer-product",
+        "kind": "answer_claims",
+        "claims": [
+          {"id": "product", "any": ["Blue Mug"]},
+          {
+            "id": "ranking",
+            "any": ["cheapest", "least expensive", "lowest priced", "lowest price"]
+          },
+          {"id": "availability", "any": ["in stock", "available"]}
+        ],
+        "reject_any": [
+          "not the cheapest",
+          "not cheapest",
+          "not in stock",
+          "out of stock",
+          "not available"
+        ]
+      },
+      {"id": "cart-unchanged", "kind": "state_unchanged", "path": "cart"},
+      {"id": "shipping-unchanged", "kind": "state_unchanged", "path": "shipping"}
+    ]
+  }
+}

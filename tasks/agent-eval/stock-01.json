@@ -1,0 +1,62 @@
+{
+  "id": "stock-01",
+  "kind": "stock",
+  "prompt": "Request 99 Blue Mugs. Report the stock failure and leave the cart unchanged.",
+  "inputs": {},
+  "initial_state": {
+    "seedVersion": "shop-fixture-v1",
+    "products": [
+      {"id": "mug-blue", "name": "Blue Mug", "color": "blue", "price": 12, "stock": 4},
+      {"id": "mug-red", "name": "Red Mug", "color": "red", "price": 11, "stock": 2},
+      {"id": "cable", "name": "USB-C Cable", "color": "black", "price": 8, "stock": 5}
+    ],
+    "cart": [
+      {"productId": "cable", "quantity": 1},
+      {"productId": "mug-blue", "quantity": 1}
+    ],
+    "shipping": {
+      "recipient": "Seed Recipient",
+      "address": "100 Example Avenue",
+      "note": "Initial fixture state"
+    }
+  },
+  "evaluation": {
+    "checks": [
+      {
+        "id": "stock-message",
+        "kind": "answer_claims",
+        "claims": [
+          {
+            "id": "failure",
+            "any": [
+              "insufficient stock",
+              "not enough stock",
+              "out of stock",
+              "could not set",
+              "couldn't set",
+              "could not add",
+              "couldn't add",
+              "unable to set",
+              "request failed",
+              "stock failure",
+              "quantity was rejected"
+            ]
+          },
+          {"id": "stock-context", "any": ["stock", "inventory", "available", "units"]}
+        ],
+        "reject_any": [
+          "stock is sufficient",
+          "sufficient stock",
+          "enough stock",
+          "enough inventory",
+          "accepted",
+          "successful",
+          "set to 99"
+        ]
+      },
+      {"id": "stock-error-observed", "kind": "trace_tool_error_or_snapshot", "message_contains": "available"},
+      {"id": "cart-unchanged", "kind": "state_unchanged", "path": "cart"},
+      {"id": "shipping-unchanged", "kind": "state_unchanged", "path": "shipping"}
+    ]
+  }
+}
