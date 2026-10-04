@@ -7,7 +7,8 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test tests/fixture.test.mjs tests/native-webmcp.test.mjs",
+    "test": "node --test tests/interfaces.test.mjs tests/loop.test.mjs tests/fixture.test.mjs",
+    "test:browser": "node --test tests/native-webmcp.test.mjs",
     "test:fixture": "node --test tests/fixture.test.mjs",
     "test:native-webmcp": "node --test tests/native-webmcp.test.mjs"
   }
