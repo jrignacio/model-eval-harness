@@ -43,5 +43,4 @@ def test_gemini_adapter_uses_generate_content(monkeypatch):
     assert captured["config"] == {
         "system_instruction": "Be useful.",
         "max_output_tokens": 200,
-        "temperature": 0.2,
     }

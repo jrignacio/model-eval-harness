@@ -113,6 +113,9 @@ class GeminiAdapter(ModelAdapter):
             raise RuntimeError(
                 "Install the Gemini adapter with: pip install -e '.[gemini]'"
             ) from exc
+        # Gemini ignores sampling params since 3.6 Flash and rejects them on
+        # upcoming models (deprecation notice, 2026-10-06).
+        del temperature
 
         client = genai.Client()
         started = time.perf_counter()
@@ -122,7 +125,6 @@ class GeminiAdapter(ModelAdapter):
             config=types.GenerateContentConfig(
                 system_instruction=system or None,
                 max_output_tokens=max_tokens,
-                temperature=temperature,
             ),
         )
         elapsed = round((time.perf_counter() - started) * 1000)
